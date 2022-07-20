@@ -9,5 +9,5 @@ import java.util.Date;
 import java.util.Objects;
 
 public interface DataReceiver {
-    public Data receiveDataByDate(OffsetDateTime date);
+    public Data receiveDataByDate(OffsetDateTime date, int userId);
 }

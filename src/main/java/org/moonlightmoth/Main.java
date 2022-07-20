@@ -14,7 +14,7 @@ public class Main {
     public static void main(String[] args) {
         SunstageDataReceiver sb = SunstageDataReceiver.getInstance();
 
-        SunstageData sunstageData = sb.receiveDataByDate(OffsetDateTime.now());
+        SunstageData sunstageData = sb.receiveDataByDate(OffsetDateTime.now(), 1);
         DateTimeFormatter dtf = DateTimeFormatter.RFC_1123_DATE_TIME;
 
         System.out.println("Sunset:");
