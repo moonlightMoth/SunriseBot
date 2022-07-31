@@ -10,8 +10,5 @@
         <module name="SunriseBot-cli" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="SunriseBot" target="11" />
-    </bytecodeTargetLevel>
   </component>
 </project>
