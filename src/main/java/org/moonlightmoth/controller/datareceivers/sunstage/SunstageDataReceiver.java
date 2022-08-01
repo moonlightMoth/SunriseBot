@@ -46,11 +46,12 @@ public class SunstageDataReceiver implements DataReceiver {
             JSONSunriseSunsetParser response = client.execute(request, httpResponse ->
                     mapper.readValue(httpResponse.getEntity().getContent(), JSONSunriseSunsetParser.class));
 
+
             return response.getSunstageData(date);
 
         } catch (IOException e) {
-//            System.out.println("Cannot connect to source api or cannot parse source api response");
-//            e.printStackTrace();
+            System.out.println("Cannot connect to source api or cannot parse source api response");
+            e.printStackTrace();
         }
         return new SunstageData(date, date, date);
     }
