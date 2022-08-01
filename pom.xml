@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.moonlightmoth</groupId>
-    <artifactId>SunriseBot-cli</artifactId>
+    <artifactId>SunriseBot</artifactId>
     <version>1.1-alpha</version>
 
     <properties>
@@ -59,7 +59,6 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <classpathPrefix>lib/</classpathPrefix>
                             <mainClass>org.moonlightmoth.Main</mainClass>
                         </manifest>
                     </archive>

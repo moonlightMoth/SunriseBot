@@ -7,11 +7,10 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="SunriseBot" />
-        <module name="SunriseBot-cli" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="SunriseBot" target="11" />
+      <module name="SunriseBot-cli" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>
