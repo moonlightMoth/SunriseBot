@@ -3,6 +3,7 @@ package org.moonlightmoth.db.sunstage;
 import org.moonlightmoth.util.Const;
 import org.moonlightmoth.util.GeoPosition;
 
+import java.io.File;
 import java.sql.*;
 import java.util.Objects;
 
@@ -48,6 +49,8 @@ public class SunstageDatabaseManager {
     public boolean connect() {
 
         try {
+            File file = new File(Const.sunsetBotDBURL);
+            System.out.println(file.getAbsolutePath());
             conn = DriverManager.getConnection(Const.sunsetBotDBURL);
 
             System.out.println("Connection to SQLite has been established.");
@@ -56,6 +59,7 @@ public class SunstageDatabaseManager {
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            e.printStackTrace();
         } finally {
             try {
                 if (conn != null) {
@@ -63,6 +67,7 @@ public class SunstageDatabaseManager {
                 }
             } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
+                ex.printStackTrace();
             }
         }
         return false;
@@ -108,6 +113,7 @@ public class SunstageDatabaseManager {
             conn.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 }

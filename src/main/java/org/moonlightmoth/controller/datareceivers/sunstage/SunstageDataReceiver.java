@@ -41,8 +41,6 @@ public class SunstageDataReceiver implements DataReceiver {
                     geoPosition.getLongitude() + "&date=" +
                     dateTimeFormatter.format(date) + "&formatted=0");
 
-            System.out.println(request);
-
             JSONSunriseSunsetParser response = client.execute(request, httpResponse ->
                     mapper.readValue(httpResponse.getEntity().getContent(), JSONSunriseSunsetParser.class));
 

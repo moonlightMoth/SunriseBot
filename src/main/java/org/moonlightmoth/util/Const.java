@@ -5,4 +5,8 @@ public class Const {
             "http://api.sunrise-sunset.org/json"
                     + "?date=";
     public static final String sunstageResource = "api.sunrise-sunset.org";
+
+    public static final String sunsetBotDBDir = "db";
+    public static final String sunsetBotDBFile = "SunsetData.db";
+    public static final String sunsetBotDBURL = sunsetBotDBDir + "/" + sunsetBotDBFile;
 }
