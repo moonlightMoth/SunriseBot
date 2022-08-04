@@ -5,6 +5,7 @@ import org.moonlightmoth.db.sunstage.SunstageDatabaseManager;
 import org.moonlightmoth.model.SunstageData;
 import org.moonlightmoth.util.Util;
 
+import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -21,8 +22,14 @@ public class Main {
         System.out.println(dtf.format(sunstageData.getSunriseDate().withOffsetSameInstant(Util.getUserTimeZone())));
 
 
-        SunstageDatabaseManager sunstageDatabaseManager = new SunstageDatabaseManager();
-        sunstageDatabaseManager.connect();
-        sunstageDatabaseManager.createNewDatabase();
+//        try
+//        {
+//            SunstageDatabaseManager sunstageDatabaseManager = new SunstageDatabaseManager();
+//        }
+//        catch (IOException e)
+//        {
+//            System.out.println(e.getMessage());;
+//                    e.printStackTrace();
+//        }
     }
 }

@@ -1,119 +1,71 @@
 package org.moonlightmoth.db.sunstage;
 
+import org.moonlightmoth.db.DatabaseManager;
 import org.moonlightmoth.util.Const;
 import org.moonlightmoth.util.GeoPosition;
 
-import java.io.File;
+import javax.sql.rowset.serial.SerialBlob;
+import javax.sql.rowset.serial.SerialException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.util.Objects;
 
-public class SunstageDatabaseManager {
+public class SunstageDatabaseManager extends DatabaseManager {
 
-    private Connection conn = null;
+    private final File sunsetDBDir = new File(Const.sunsetBotDBDir);
+    private final File sunsetDBFileName = new File(Const.sunsetBotDBFile);
 
-    public SunstageDatabaseManager()
+    private final String tableCreationStm = "CREATE TABLE IF NOT EXISTS geopos (\n" +
+            "\tuid INTEGER PRIMARY KEY,\n" +
+            "\tgeopos BLOB NOT NULL\n" +
+            ");";
+
+    private final String insertSTM = "INSERT INTO geopos (uid, geopos) VALUES (";
+
+    public SunstageDatabaseManager() throws IOException
     {
-
+        connect();
+        createTableIfNotExists();
+        insertRecord(12, new GeoPosition(59.56, 30.19));
     }
 
-    public boolean isConnected()
-    {
-        try {
-            return Objects.nonNull(conn) && !conn.isClosed();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
-        return false;
+    public boolean connect() throws IOException {
+        return super.connect(sunsetDBDir, sunsetDBFileName);
     }
 
-    public boolean disconnect()
-    {
-        if (Objects.nonNull(conn)) {
-            try {
-                conn.close();
-                return true;
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-                e.printStackTrace();
-            }
-        }
-        return false;
-    }
-
-    public GeoPosition getGeoById(int userId)
+    public GeoPosition getGeoById(int uId)
     {
         return new GeoPosition(59.56, 30.19);
     }
 
-    public boolean connect() {
-
-        try {
-            File file = new File(Const.sunsetBotDBURL);
-            System.out.println(file.getAbsolutePath());
-            conn = DriverManager.getConnection(Const.sunsetBotDBURL);
-
-            System.out.println("Connection to SQLite has been established.");
-
-            return true;
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        } finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
-                ex.printStackTrace();
-            }
-        }
-        return false;
-    }
-
-    public void createNewTable() {
-        // SQLite connection string
-        // SQL statement for creating a new table
-        String sql = "CREATE TABLE IF NOT EXISTS employees (\n"
-                + " id integer PRIMARY KEY,\n"
-                + " name text NOT NULL,\n"
-                + " capacity real\n"
-                + ");";
-
-        try {
-            Statement stmt = conn.createStatement();
-            stmt.execute(sql);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    public void createNewDatabase() {
-
-        try {
-
-            if (conn != null) {
-                DatabaseMetaData meta = conn.getMetaData();
-                System.out.println("The driver name is " + meta.getDriverName());
-                System.out.println("A new database has been created.");
-            }
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    public void closeConnection()
+    public boolean createTableIfNotExists()
     {
+        return executeStatement(tableCreationStm);
+    }
+
+    public boolean insertRecord(int uid, GeoPosition geoPosition)
+    {
+        String st;
         try {
-            conn.close();
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            new ObjectOutputStream(bos).writeObject(geoPosition);
+            Blob blob = new SerialBlob(bos.toByteArray());
+
+            st = insertSTM + uid + ", '" + blob + "');";
+            System.out.println(st);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (SerialException e) {
+            throw new RuntimeException(e);
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
+
+        return executeStatement(st);
+    }
+
+    private boolean executeStatement(String stm) {
+        return super.executeSQLStatement(stm);
     }
 }

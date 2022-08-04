@@ -9,4 +9,6 @@ public class Const {
     public static final String sunsetBotDBDir = "db";
     public static final String sunsetBotDBFile = "SunsetData.db";
     public static final String sunsetBotDBURL = sunsetBotDBDir + "/" + sunsetBotDBFile;
+
+    public static final String sqliteJDBCPrefix = "jdbc:sqlite:";
 }
