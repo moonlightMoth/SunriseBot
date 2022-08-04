@@ -21,7 +21,7 @@ public class SunstageDatabaseManager extends DatabaseManager {
             "\tgeopos BLOB NOT NULL\n" +
             ");";
 
-    private final String insertSTM = "INSERT INTO geopos (uid, geopos) VALUES (";
+    private final String insertSTM = "INSERT INTO geopos (uid, geopos) VALUES (?, ?);";
 
     public SunstageDatabaseManager() throws IOException
     {
@@ -47,25 +47,26 @@ public class SunstageDatabaseManager extends DatabaseManager {
     public boolean insertRecord(int uid, GeoPosition geoPosition)
     {
         String st;
+        PreparedStatement s;
         try {
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            new ObjectOutputStream(bos).writeObject(geoPosition);
-            Blob blob = new SerialBlob(bos.toByteArray());
+            ObjectOutputStream oos = new ObjectOutputStream(bos);
+            oos.writeObject(geoPosition);
+//            Blob blob = new SerialBlob(bos.toByteArray());
 
-            st = insertSTM + uid + ", '" + blob + "');";
-            System.out.println(st);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (SerialException e) {
-            throw new RuntimeException(e);
-        } catch (SQLException e) {
+            s = conn.prepareStatement(insertSTM);
+            s.setInt(1, uid);
+            s.setBytes(2, bos.toByteArray());
+
+            System.out.println(s.toString());
+        } catch (IOException | SQLException e) {
             throw new RuntimeException(e);
         }
 
-        return executeStatement(st);
+        return executeStatement(s);
     }
 
-    private boolean executeStatement(String stm) {
+    private boolean executeStatement(PreparedStatement stm) {
         return super.executeSQLStatement(stm);
     }
 }

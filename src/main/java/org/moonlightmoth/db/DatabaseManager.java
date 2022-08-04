@@ -9,7 +9,7 @@ import java.util.Objects;
 
 public abstract class DatabaseManager {
 
-    private Connection conn = null;
+    protected Connection conn = null;
 
     public boolean isConnected()
     {
@@ -47,10 +47,9 @@ public abstract class DatabaseManager {
         return false;
     }
 
-    public boolean executeSQLStatement(String stm) {
+    public boolean executeSQLStatement(PreparedStatement stm) {
         try {
-            Statement stmt = conn.createStatement();
-            stmt.execute(stm);
+            stm.execute();
             return true;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
