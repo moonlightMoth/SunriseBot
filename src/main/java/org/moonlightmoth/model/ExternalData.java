@@ -1,5 +1,5 @@
 package org.moonlightmoth.model;
 
-public interface Data {
+public interface ExternalData {
     public String toString();
 }

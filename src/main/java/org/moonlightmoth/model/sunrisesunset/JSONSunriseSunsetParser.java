@@ -1,8 +1,8 @@
 package org.moonlightmoth.model.sunrisesunset;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.moonlightmoth.model.SunstageData;
-import java.text.ParseException;
+import org.moonlightmoth.model.SunstageExternalData;
+
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
@@ -24,12 +24,12 @@ public class JSONSunriseSunsetParser {
             this.solarNoon = results.get("solar_noon");
         }
 
-        public SunstageData getSunstageData(OffsetDateTime date) {
+        public SunstageExternalData getSunstageData(OffsetDateTime date) {
 
             OffsetDateTime sunsetDate = OffsetDateTime.parse(sunset, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
             OffsetDateTime sunriseDate = OffsetDateTime.parse(sunrise, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
 
-            return new SunstageData(sunsetDate, sunriseDate, date);
+            return new SunstageExternalData(sunsetDate, sunriseDate, date);
         }
 
 

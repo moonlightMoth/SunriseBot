@@ -3,21 +3,17 @@ package org.moonlightmoth.model;
 import org.moonlightmoth.util.IllegalDayLengthException;
 
 import java.time.Duration;
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
-import java.util.Date;
 import java.util.Objects;
-import java.util.SimpleTimeZone;
-import java.util.TimeZone;
 
-public class SunstageData implements Data {
+public class SunstageExternalData implements ExternalData {
     private OffsetDateTime sunsetDate;
     private OffsetDateTime sunriseDate;
     private OffsetDateTime date;
     private Duration dayLength = null;
 
 
-    public SunstageData(OffsetDateTime sunsetDate, OffsetDateTime sunriseDate, OffsetDateTime date)
+    public SunstageExternalData(OffsetDateTime sunsetDate, OffsetDateTime sunriseDate, OffsetDateTime date)
     {
         setSunsetDate(sunsetDate);
         setSunriseDate(sunriseDate);
@@ -70,7 +66,7 @@ public class SunstageData implements Data {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        SunstageData that = (SunstageData) o;
+        SunstageExternalData that = (SunstageExternalData) o;
         return Objects.equals(sunsetDate, that.sunsetDate) && Objects.equals(sunriseDate, that.sunriseDate) && Objects.equals(date, that.date) && Objects.equals(dayLength, that.dayLength);
     }
 
